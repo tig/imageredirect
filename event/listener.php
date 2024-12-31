@@ -43,6 +43,20 @@ class listener implements EventSubscriberInterface
 				$board_path = realpath('./');
 			}
 
+			static $images_base_url = '';
+			if ($images_base_url === '')
+			{
+				if (($this->config['imageredirect_proxymode'] === 0) && (strlen($this->config['imageredirect_proxyaddress']) === 0))
+				{
+					$images_base_url = $board_url . $this->config['imageredirect_localimagespath'] . '/' ;
+				} 
+				else 
+				{
+					$images_base_url = $this->config['imageredirect_images_base_url'];
+				}
+			}
+
+			$file_name = md5("$url");
 			// if we have a locally hosted copy of the file, we can find it
 			$local_file_name = $this->config['imageredirect_localimagespath'] . md5("$url");
 			$file_path = $board_path . '/' . $local_file_name;
@@ -57,14 +71,14 @@ class listener implements EventSubscriberInterface
 				if (file_exists($file_path . $file_ext))
 				{
 					// we will link to the local file
-					$url = $board_url . '/' . $local_file_name . $file_ext;
+					$url = $images_base_url . '/' . $file_name . $file_ext;
 					return $url;
 				}
 			   	// fallback to file without extension (for backward compatibility)
 				elseif (file_exists($file_path))
 				{
 					// we will link to the local file
-					$url = $board_url . '/' . $local_file_name;
+					$url = $images_base_url . '/' . $file_name;
 					return $url;
 				}
 				// drop through to proxy mode

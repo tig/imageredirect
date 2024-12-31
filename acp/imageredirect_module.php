@@ -42,6 +42,7 @@ class imageredirect_module
 
 						$config->set('imageredirect_localimagesmode', $request->variable('imageredirect_localimagesmode', 0));
 						$config->set('imageredirect_localimagespath', $request->variable('imageredirect_localimagespath', "", true));
+						$config->set('imageredirect_images_base_url', $request->variable('imageredirect_images_base_url', "", true));
 					}
 
 				// fill-in the template
@@ -49,6 +50,7 @@ class imageredirect_module
 					'MODE'				=> 1,
 					'LOCAL_IMAGES_MODE'	=> $config['imageredirect_localimagesmode'],
 					'LOCAL_IMAGES_PATH'	=> (!empty($config['imageredirect_localimagespath'])) ? $config['imageredirect_localimagespath'] : "",
+					'IMAGES_BASE_URL'	=> (!empty($config['imageredirect_images_base_url'])) ? $config['imageredirect_images_base_url'] : "",
 					'IR_VERSION'		=> $config['imageredirect_version'],
 					'U_ACTION'			=> $this->u_action,
 				));
